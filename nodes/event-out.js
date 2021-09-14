@@ -1,5 +1,19 @@
-/** A simple template for defining custom nodes
+/** Converts an input msg to an event, passes the msg via the event.
+ * 
  * Destructured to make for easier and more consistent logic.
+ * Copyright (c) 2021 Julian Knight (Totally Information)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 'use strict'
 
@@ -36,7 +50,7 @@ function moduleSetup() {
     // As a module-level named function, it will inherit `mod` and other module-level variables
     //const RED = mod.RED
 
-    // console.log('>>>=[OUT 1a]=>>> [moduleSetup] Startng')
+    //console.log('>>>=[IN 1a]=>>> [moduleSetup] Startng')
 
     // Do stuff here that only needs doing once
     // Don't forget to push anything that might be needed by other functions and modules
@@ -50,16 +64,22 @@ function moduleSetup() {
  * @param {Function} send Per msg send function, node-red v1+
  * @param {Function} done Per msg finish function, node-red v1+
  */
-// function inputMsgHandler(msg, send, done) {
-//     // As a module-level named function, it will inherit `mod` and other module-level variables
+function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-vars
+    // As a module-level named function, it will inherit `mod` and other module-level variables
 
-//     // If you need it - or just use mod.RED if you prefer:
-//     //const RED = mod.RED
+    // If you need it - or just use mod.RED if you prefer:
+    //const RED = mod.RED
 
-//     console.log('>>>=[OUT 3]=>>> [inputMsgHandler] Startng', msg) //, this)
-//     send(msg)
-//     done()
-// }
+    //console.log('>>>=[IN 3]=>>> [inputMsgHandler] Startng', msg) //, this)
+
+    const eventName = `TotallyInfo-Contrib-Events:${msg.topic}`
+
+    msg._eventOriginator = this.id
+    mod.RED.events.emit(eventName, msg)
+
+    // send(msg)
+    // done()
+}
 
 /** 2) This is run when an actual instance of our node is committed to a flow
  * @param {runtimeNodeConfig} config The Node-RED node instance config object
@@ -70,7 +90,7 @@ function nodeInstance(config) {
     // If you need it - which you will here - or just use mod.RED if you prefer:
     const RED = mod.RED
 
-    // console.log('>>>=[OUT 2]=>>> [nodeInstance] Startng')
+    // console.log('>>>=[IN 2]=>>> [nodeInstance] Startng')
     //console.log('>>>=[2a]=>>>', config)
 
     // Create the node instance - `this` can only be referenced AFTER here
@@ -84,18 +104,8 @@ function nodeInstance(config) {
      *  The inputMsgHandler function is executed every time this instance
      *  of the node receives a msg in a flow.
      */
-    // this.on('input', inputMsgHandler)
+    this.on('input', inputMsgHandler)
 
-    const eventName = `TotallyInfo-Contrib-Events:${this.topic}`
-
-    // Event handler
-    const sender = (msg) => {
-        //console.log('>>>=[OUT SENDER]=>>> ', msg)
-        this.send(msg)
-    }
-
-    // Create new listener for the given topic, record it so that it can be removed on close
-    mod.RED.events.on(eventName, sender)
 
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.
@@ -103,10 +113,8 @@ function nodeInstance(config) {
      * same `this` context and so has access to all of the node instance properties.
      */
     this.on('close', (removed, done) => { 
-        //console.log('>>>=[OUT 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed, '. Node ID: ', this.id)
-
-        // Remove this event listener
-        mod.RED.events.removeListener(eventName, sender)
+        console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
+        
 
         // Give Node-RED a clue when you have finished (more important if your shutdown
         // process includes an async task, make sure done() is executed when the async
@@ -135,6 +143,9 @@ function EventOut(RED) {
     // This allows you to access it from any other function
     // defined above.
     mod.RED = RED
+
+    // const x = RED.events
+    // mod.EventEmitter = 
 
     // Add function calls here for setup that only needs doing
     // once. Node-RED loads this once no matter how many instances

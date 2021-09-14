@@ -1,7 +1,9 @@
 
 <script type="text/javascript">
-;(function () {
+/* eslint-disable strict */
+(function () {
     'use strict'
+
     const nodeLabel = 'event-in'
 
     RED.nodes.registerType(nodeLabel, {
@@ -9,19 +11,19 @@
         color: '#E6E0F8',
         defaults: {
             name: { value: '' },
-            topic: { value: '' },
+            topic: { value: '', required: true },
         },
-        inputs: 1,
-        inputLabels: 'Msg with topic property',
-        outputs: 0,
-        //outputLabels: ['Data from front-end'],
+        inputs: 0,
+        //inputLabels: 'Msg with topic property',
+        outputs: 1,
+        outputLabels: ['Data from input event'],
         icon: 'ui_template.png',
         paletteLabel: nodeLabel,
         label: function () { return this.name || this.topic || nodeLabel },
         
     }) // ---- End of registerType() ---- //
 
-})()
+}())
 </script>
 
 <script type="text/html" data-template-name="event-in">

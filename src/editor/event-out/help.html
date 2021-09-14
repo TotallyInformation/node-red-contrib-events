@@ -3,10 +3,6 @@
 </p>
 
 <h3>Inputs</h3>
-<p>
-    There are no inputs. The node is triggered by a <code>event-in</code> node with a matching input <code>msg.topic</code>
-</p>
-
 <dl class="message-properties">
     <dt class="optional">payload <span class="property-type">string | buffer</span></dt>
     <dd> Optionally, the payload of the message to send to all connected client browser tabs. </dd>
@@ -17,7 +13,7 @@
 
 <h3>Outputs</h3>
 <p>
-    The node outputs the node that was input to the matching <code>event-in</code> node.
+    There are currently no outputs
 </p>
 
 <h3>Node Settings</h3>
@@ -26,5 +22,5 @@
     <dd>A short description shown in the admin interface</dd>
 
     <dt>Topic <span class="property-type">string</span></dt>
-    <dd><b>REQUIRED</b>. The topic name to match.</dd>
+    <dd>A topic name to use if the incoming msg does not contain one.</dd>
 </dl>

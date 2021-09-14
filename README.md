@@ -8,6 +8,6 @@ However, they attach/consume events named after a node ID.
 
 Instead, this set of nodes name events after the input `msg.topic`.
 
-So, throw any `msg` you like into an `event-in` node. Then add `event-out` nodes set to the topic string that you want to listen for.
+So, throw any `msg` you like to an `event-out` node. Then add `event-in` nodes set to the topic string that you want to listen for.
 
-Then any msg sent to any of the `event-in` nodes that has the matching `msg.topic` string, all of the `event-out` nodes will receive and output the same `msg`.
+Then for a msg sent to any of the `event-out` nodes that has the matching `msg.topic` string, all of the `event-in` nodes will receive and output the same `msg`.

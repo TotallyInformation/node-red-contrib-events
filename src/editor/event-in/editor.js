@@ -4,23 +4,23 @@
 (function () {
     'use strict'
 
-    const nodeLabel = 'event-in'
+    const nodeLabel = 'event-out'
 
     RED.nodes.registerType(nodeLabel, {
         category: 'EXPERIMENTAL',
         color: '#E6E0F8',
         defaults: {
             name: { value: '' },
-            topic: { value: '' },
+            topic: { value: '', required: true },
         },
-        inputs: 1,
-        inputLabels: 'Msg with topic property',
-        outputs: 0,
-        //outputLabels: ['Data from front-end'],
+        inputs: 0,
+        //inputLabels: 'Msg with topic property',
+        outputs: 1,
+        outputLabels: ['Data from input event'],
         icon: 'ui_template.png',
         paletteLabel: nodeLabel,
         label: function () { return this.name || this.topic || nodeLabel },
         
     }) // ---- End of registerType() ---- //
 
-})()
+}())
