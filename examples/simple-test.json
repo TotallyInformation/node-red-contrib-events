@@ -1,0 +1,238 @@
+[
+    {
+        "id": "cd7e74689f80d6d8",
+        "type": "inject",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "anything",
+                "v": "{\"some\":\"thing\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "examples/example1",
+        "payload": "I am example 1",
+        "payloadType": "str",
+        "x": 200,
+        "y": 60,
+        "wires": [
+            [
+                "80372eb0451d3972"
+            ]
+        ]
+    },
+    {
+        "id": "8db94251f4bfc582",
+        "type": "debug",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "msg",
+        "x": 470,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "b6e339b8d119ffd2",
+        "type": "inject",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "anything",
+                "v": "{\"some\":\"other thing\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "examples/example2",
+        "payload": "I am example 2",
+        "payloadType": "str",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "80372eb0451d3972"
+            ]
+        ]
+    },
+    {
+        "id": "fc38ec1067519f20",
+        "type": "inject",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "anything",
+                "v": "{\"some\":\"more thing\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "examples/example3",
+        "payload": "I am example 3",
+        "payloadType": "str",
+        "x": 200,
+        "y": 140,
+        "wires": [
+            [
+                "80372eb0451d3972"
+            ]
+        ]
+    },
+    {
+        "id": "99ae35911f9beb07",
+        "type": "debug",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "msg",
+        "x": 470,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "357d18d1dc7409ba",
+        "type": "debug",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "msg",
+        "x": 470,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "80372eb0451d3972",
+        "type": "event-out",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "topic": "",
+        "x": 480,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "bcbb58dc68b2cdd2",
+        "type": "event-in",
+        "z": "3b8f2a4f11876937",
+        "name": "Example 1a",
+        "topic": "examples/example1",
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "8db94251f4bfc582"
+            ]
+        ]
+    },
+    {
+        "id": "5d32ccc5f6501aa8",
+        "type": "event-in",
+        "z": "3b8f2a4f11876937",
+        "name": "Example 1b ",
+        "topic": "examples/example1",
+        "x": 270,
+        "y": 280,
+        "wires": [
+            [
+                "99ae35911f9beb07"
+            ]
+        ]
+    },
+    {
+        "id": "93371ee03ba7cd9a",
+        "type": "event-in",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "topic": "examples/example2",
+        "x": 290,
+        "y": 340,
+        "wires": [
+            [
+                "357d18d1dc7409ba"
+            ]
+        ]
+    },
+    {
+        "id": "e67d203a6f91357e",
+        "type": "debug",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "msg",
+        "x": 470,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "4dedcf6a355b32bf",
+        "type": "event-in",
+        "z": "3b8f2a4f11876937",
+        "name": "",
+        "topic": "examples/*",
+        "x": 260,
+        "y": 400,
+        "wires": [
+            [
+                "e67d203a6f91357e"
+            ]
+        ]
+    }
+]
