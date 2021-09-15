@@ -24,4 +24,5 @@ THe `event-out` node supports topic wildcards using `*`, `/` is recognised as a 
 
 * Add option to out node to allow passthrough of input msg.
 * Add topic validation for in node (255 char string).
+* Add count of output msgs to the in node
   
