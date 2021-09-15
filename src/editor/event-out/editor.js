@@ -4,7 +4,7 @@
 (function () {
     'use strict'
 
-    const nodeLabel = 'event-in'
+    const nodeLabel = 'event-out'
 
     RED.nodes.registerType(nodeLabel, {
         category: 'EXPERIMENTAL',

@@ -1,7 +1,6 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable jsdoc/newline-after-description, jsdoc/require-param */
+/* eslint-disable sonarjs/no-duplicate-string, jsdoc/newline-after-description, jsdoc/require-param */
 
-/**
+/** References ...
  * https://semaphoreci.com/community/tutorials/getting-started-with-gulp-js
  * https://gulpjs.com/plugins/
  * https://gulpjs.com/docs/en/api/concepts/
@@ -27,11 +26,13 @@
 
 'use strict'
 
-//const { src, dest, series, watch, /* parallel, */ } = require('gulp')
+//#region ---- Require dependent modules ---- //
+
+const { src, dest, /*series,*/ watch, parallel, } = require('gulp')
 // const uglify = require('gulp-uglify')
-// const rename = require('gulp-rename')
-// const include = require('gulp-include')
-// const once = require('gulp-once')
+const rename = require('gulp-rename')
+const include = require('gulp-include')
+const once = require('gulp-once')
 //const prompt = require('gulp-prompt')
 // const replace = require('gulp-replace')
 // const debug = require('gulp-debug')
@@ -40,7 +41,9 @@ const fs = require('fs')
 //const { promisify } = require('util')
 //const dotenv = require('dotenv')
 
-// const nodeDest = 'nodes'
+//#endregion ---- ---- ---- ---- //
+
+//#region >>>> Vars - change as needed <<<<
 
 // print output of commands into the terminal
 const stdio = 'inherit'
@@ -48,35 +51,56 @@ const stdio = 'inherit'
 const { version } = JSON.parse(fs.readFileSync('package.json'))
 
 // What release/version do we want to end up with?
-const release = '0.4.0'
+const release = '0.1.0'
+
+// Locations
+const nodeDest = 'nodes'
+
+//#endregion
 
 console.log(`Current Version: ${version}. Requested Version: ${release}`)
 
 /** 
  * TODO
  *  - Add text replace to ensure 2021 in (c) blocks is current year
+ *  - Add improvements to build so that we can have a generic name in the src code as a template
  */
 
-/** Combine the parts of uibuilder.html */
-// function combineHtml(cb) {
-//     src('src/editor/main.html')
-//         .pipe(include())
-//         .pipe(once())
-//         .pipe(rename('uibuilder.html'))
-//         .pipe(dest(nodeDest))
+//#region >>>> Build/Watch - add a function for each node <<<<
 
-//     cb()
-// }
+/** Combine the parts of event-in.html file */
+function buildPanelSrcIn(cb) {
+    src('src/editor/event-in/main.html')
+        .pipe(include())
+        .pipe(once())
+        .pipe(rename('event-in.html'))
+        .pipe(dest(nodeDest))
+
+    cb()
+}
+/** Combine the parts of event-out.html file */
+function buildPanelSrcOut(cb) {
+    src('src/editor/event-out/main.html')
+        .pipe(include())
+        .pipe(once())
+        .pipe(rename('event-out.html'))
+        .pipe(dest(nodeDest))
+
+    cb()
+}
 
 /** Watch for changes during development of uibuilderfe & editor */
-// function watchme(cb) {
-//     // Re-combine uibuilder.html if the source changes
-//     watch('src/editor/*', combineHtml)
+function watchme(cb) {
+    // Re-combine uibuilder.html if the source changes
+    watch('src/editor/event-in/*', buildPanelSrcIn)
+    watch('src/editor/event-out/*', buildPanelSrcOut)
 
-//     cb()
-// }
+    cb()
+}
 
-/** Set uibuilder version in package.json */
+//#endregion ---- ---- ---- ---- //
+
+/** Update module version in package.json */
 async function setPackageVersion() {
     if (version !== release) {
         // bump version without committing and tagging: npm version 4.2.1 --no-git-tag-version --allow-same-version
@@ -106,9 +130,10 @@ async function createTag(cb) {
     cb()
 }
 
-
 //exports.default     = series( packfe, combineHtml ) // series(runLinter,parallel(generateCSS,generateHTML),runTests)
-// exports.watch       = watchme
-// exports.combineHtml = combineHtml
+exports.buildPanelSrcIn  = buildPanelSrcIn
+exports.buildPanelSrcOut = buildPanelSrcOut
+exports.watch       = watchme
+exports.build       = parallel( buildPanelSrcIn, buildPanelSrcOut)
 exports.createTag   = createTag
 exports.setVersion  = setPackageVersion //series( setPackageVersion, setFeVersion, setFeVersionMin )

@@ -26,6 +26,8 @@
 
 //#region ----- Module level variables ---- //
 
+const emitter = require('./libs/events.js')
+
 /** Main (module) variables - acts as a configuration object
  *  that can easily be passed around.
  */
@@ -75,7 +77,8 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
     const eventName = `TotallyInfo-Contrib-Events:${msg.topic}`
 
     msg._eventOriginator = this.id
-    mod.RED.events.emit(eventName, msg)
+    emitter.emit(eventName, msg)
+    //mod.RED.events.emit(eventName, msg)
 
     // send(msg)
     // done()

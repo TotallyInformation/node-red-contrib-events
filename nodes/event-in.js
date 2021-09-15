@@ -26,6 +26,8 @@
 
 //#region ----- Module level variables ---- //
 
+const emitter = require('./libs/events.js')
+
 /** Main (module) variables - acts as a configuration object
  *  that can easily be passed around.
  */
@@ -109,7 +111,8 @@ function nodeInstance(config) {
     }
 
     // Create new listener for the given topic, record it so that it can be removed on close
-    mod.RED.events.on(eventName, sender)
+    emitter.on(eventName, sender)
+    //mod.RED.events.on(eventName, sender)
 
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.
@@ -120,7 +123,8 @@ function nodeInstance(config) {
         //console.log('>>>=[OUT 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed, '. Node ID: ', this.id)
 
         // Remove this event listener
-        mod.RED.events.removeListener(eventName, sender)
+        emitter.removeListener(eventName, sender)
+        //mod.RED.events.removeListener(eventName, sender)
 
         // Give Node-RED a clue when you have finished (more important if your shutdown
         // process includes an async task, make sure done() is executed when the async
