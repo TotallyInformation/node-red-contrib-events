@@ -33,7 +33,7 @@ Contact the author if you want to make use of this package's event system in oth
 
 ## Installation
 
-To install from the standard npmjs registry: `npm install @totallyinformation/node-red-contrib-events`
+To install from the standard npmjs registry: `npm install @totallyinfo/node-red-contrib-events`
 
 To install from GitHub: `npm install TotallyInformation/node-red-contrib-events`
 
