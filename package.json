@@ -1,14 +1,20 @@
 {
   "name": "node-red-contrib-events",
-  "version": "0.1.0",
-  "description": "Event broadcast and receive nodes for Node-RED. EXPERIMENTAL",
+  "version": "1.0.0",
+  "description": "Event broadcast and receive nodes for Node-RED.",
   "keywords": [
-    "node-red",
-    "events"
+    "events",
+    "links",
+    "pub/sub",
+    "publish",
+    "subscribe",
+    "broadcast",
+    "eventhandler"
   ],
   "main": "none",
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "watch": "gulp watch"
   },
   "node-red": {
     "version": ">=2.0.0",
@@ -35,6 +41,7 @@
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.3",
     "gulp-include": "^2.4.1",
+    "gulp-once": "^2.1.1",
     "gulp-rename": "^2.0.0",
     "gulp-uglify": "^3.0.2"
   },

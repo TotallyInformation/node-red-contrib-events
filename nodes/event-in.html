@@ -1,13 +1,30 @@
+<!--
+    Copyright (c) 2021 Julian Knight (Totally Information)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 
 <script type="text/javascript">
 /* eslint-disable strict */
+
+// Isolate this code
 (function () {
     'use strict'
 
     const nodeLabel = 'event-in'
 
     RED.nodes.registerType(nodeLabel, {
-        category: 'EXPERIMENTAL',
+        category: 'Events',
         color: '#E6E0F8',
         defaults: {
             name: { value: '' },
@@ -24,15 +41,56 @@
     }) // ---- End of registerType() ---- //
 
 }())
+
 </script>
 
 <script type="text/html" data-template-name="event-in">
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name">
-    </div>
-    <div class="form-row">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic">
-    </div>
+<div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name">
+</div>
+<div class="form-row">
+    <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+    <input type="text" id="node-input-topic">
+</div>
+
+</script>
+
+<script type="text/html" data-help-name="event-in">
+<p>
+    Event-driven notifications. Create an event from an input msg.topic.
+    An instance of this node will receive the same msg as that sent with a matching <code>msg.topic</code> to any <code>event-out</code> node.
+</p>
+
+<h3>Inputs</h3>
+<p>
+    There are no inputs. The node is triggered by a <code>event-out</code> node with a matching input <code>msg.topic</code>
+</p>
+
+<h3>Outputs</h3>
+<p>
+    The node outputs the node that was input to the matching <code>event-out</code> node.
+</p>
+
+<h3>Node Settings</h3>
+<dl class="message-properties">
+    <dt>Name <span class="property-type">string</span></dt>
+    <dd>A short description shown in the admin interface</dd>
+
+    <dt>Topic <span class="property-type">string</span></dt>
+    <dd>
+        <p>
+            <b>REQUIRED</b>. The topic name to match.<br>
+            The defined topic string may include the character <code>*</code> (or <code>+</code>) to act as a single-level wildcard.
+            Use <code>**</code> or <code>#</code> for a multi-level wildcard.
+            The <code>/</code> character acts as a level (namespace) separator for the wildcards.
+        </p>
+        <h5>Example</h5>
+        <p>
+            <code>one/*/three</code> will match input topics of <code>one/two/three</code>, <code>one/99/three</code>, etc.<br>
+            <code>one/**</code> or <code>one/#</code> will match input topics like <code>one/two/three</code>, or <code>one/99</code>.<br>
+        </p>
+    </dd>
+</dl>
+
 </script>

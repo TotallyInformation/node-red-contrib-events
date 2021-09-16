@@ -1,6 +1,6 @@
 /** Converts an input msg to an event, passes the msg via the event.
+ *  Destructured to make for easier and more consistent logic.
  * 
- * Destructured to make for easier and more consistent logic.
  * Copyright (c) 2021 Julian Knight (Totally Information)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,28 +36,11 @@ const mod = {
     RED: undefined,
     /** @type {string} Custom Node Name - has to match with html file and package.json `red` section */
     nodeName: 'event-out',
-
-    // Add anything else here that you may wish
-    // to access from any function.
-    // Having one object also makes it much easier
-    // to pass this to external modules as needed.
 }
 
 //#endregion ----- Module level variables ---- //
 
 //#region ----- Module-level support functions ----- //
-
-/** 1a) Runs once when Node-RED (re)starts or when the node package is first added */
-function moduleSetup() {
-    // As a module-level named function, it will inherit `mod` and other module-level variables
-    //const RED = mod.RED
-
-    //console.log('>>>=[IN 1a]=>>> [moduleSetup] Startng')
-
-    // Do stuff here that only needs doing once
-    // Don't forget to push anything that might be needed by other functions and modules
-    // into the `mod` variable so that it is easily accessible and can be passed on.
-}
 
 /** 3) Run whenever a node instance receives a new input msg
  * NOTE: `this` context is still the parent (nodeInstance).
@@ -72,17 +55,36 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
     // If you need it - or just use mod.RED if you prefer:
     //const RED = mod.RED
 
-    //console.log('>>>=[IN 3]=>>> [inputMsgHandler] Startng', msg) //, this)
+    let topic = msg.topic
 
-    const eventName = `TotallyInfo-Contrib-Events:${msg.topic}`
+    // Default topic from the settings if the msg doesn't define one
+    if ( (! topic) && this.topic ) topic = this.topic
+    if ( ! topic ) topic = ''
 
+    // Sanitise the topic & report errors - it must be a string and no more than 255 chars. It should not contain `*`, `#` or `+`
+    let topicErrors = []
+    if ( topic.length < 1 ) topicErrors.push('Topic is empty')
+    if ( topic.length > 255 ) topicErrors.push('Topic is >255 characters long')
+    if ( topic.includes('#') ) topicErrors.push('Topic contains a `#` wildcard character')
+    if ( topic.includes('+') ) topicErrors.push('Topic contains a `+` wildcard character')
+    if ( topic.includes('*') ) topicErrors.push('Topic contains a `*` wildcard character')
+    if ( topicErrors.length !== 0 ) {
+        done(`Input topic is invalid: ${topicErrors.join(', ')}`)
+        return
+    }
+
+    // Ensure that the event name is unique for these nodes (since the event handler may be reused in other nodes)
+    const eventName = `Contrib-Events:${topic}`
+    // Add the originating node id to make tracing easier
     msg._eventOriginator = this.id
+    // Emit the event
     emitter.emit(eventName, msg)
-    //mod.RED.events.emit(eventName, msg)
+    // If passthrough is enabled, send the msg
+    if ( this.passthrough === true ) send(msg)
+    // We are done
+    done()
 
-    // send(msg)
-    // done()
-}
+} // ----- end of inputMsgHandler ----- //
 
 /** 2) This is run when an actual instance of our node is committed to a flow
  * @param {runtimeNodeConfig} config The Node-RED node instance config object
@@ -93,15 +95,13 @@ function nodeInstance(config) {
     // If you need it - which you will here - or just use mod.RED if you prefer:
     const RED = mod.RED
 
-    // console.log('>>>=[IN 2]=>>> [nodeInstance] Startng')
-    //console.log('>>>=[2a]=>>>', config)
-
     // Create the node instance - `this` can only be referenced AFTER here
     RED.nodes.createNode(this, config) 
 
     // Transfer config items from the Editor panel to the runtime
     this.name = config.name
-    this.topic = config.topic
+    this.topic = config.topic || ''
+    this.passthrough = config.passthrough
 
     /** Handle incoming msg's - note that the handler fn inherits `this`
      *  The inputMsgHandler function is executed every time this instance
@@ -109,21 +109,16 @@ function nodeInstance(config) {
      */
     this.on('input', inputMsgHandler)
 
-
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.
      * Note the use of an arrow function, ensures that the function keeps the
      * same `this` context and so has access to all of the node instance properties.
      */
-    this.on('close', (removed, done) => { 
-        console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
-        
+    // this.on('close', (removed, done) => { 
+    //     console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
 
-        // Give Node-RED a clue when you have finished (more important if your shutdown
-        // process includes an async task, make sure done() is executed when the async
-        // task completes, not when this function ends).
-        done()
-    })
+    //     done()
+    // })
 
     /** Properties of `this`
      * Methods: updateWires(wires), context(), on(event,callback), emit(event,...args), removeListener(name,listener), removeAllListeners(name), close(removed)
@@ -131,7 +126,7 @@ function nodeInstance(config) {
      * Other: credentials, id, type, z, wires, x, y
      * + any props added manually from config, typically at least name and topic
      */
-    //console.log('>>>=[2b]=>>>', this)
+    //console.log('>>>> TI GLOBAL <<<<', global.totallyInformationShared)
 }
 
 //#endregion ----- Module-level support functions ----- //
@@ -143,17 +138,7 @@ function EventOut(RED) {
     // As a module-level named function, it will inherit `mod` and other module-level variables
 
     // Save a reference to the RED runtime for convenience
-    // This allows you to access it from any other function
-    // defined above.
     mod.RED = RED
-
-    // const x = RED.events
-    // mod.EventEmitter = 
-
-    // Add function calls here for setup that only needs doing
-    // once. Node-RED loads this once no matter how many instances
-    // of you node you add to flows.
-    moduleSetup() // (1a)
 
     // Register a new instance of the specified node type (2)
     RED.nodes.registerType(mod.nodeName, nodeInstance)

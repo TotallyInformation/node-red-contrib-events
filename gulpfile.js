@@ -43,7 +43,7 @@ const fs = require('fs')
 
 //#endregion ---- ---- ---- ---- //
 
-//#region >>>> Vars - change as needed <<<<
+//#region >>>> Vars - change as needed <<<< //
 
 // print output of commands into the terminal
 const stdio = 'inherit'
@@ -51,12 +51,12 @@ const stdio = 'inherit'
 const { version } = JSON.parse(fs.readFileSync('package.json'))
 
 // What release/version do we want to end up with?
-const release = '0.1.0'
+const release = '1.0.0'
 
 // Locations
 const nodeDest = 'nodes'
 
-//#endregion
+//#endregion ------------------------------ //
 
 console.log(`Current Version: ${version}. Requested Version: ${release}`)
 

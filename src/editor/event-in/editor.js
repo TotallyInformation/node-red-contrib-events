@@ -7,7 +7,7 @@
     const nodeLabel = 'event-in'
 
     RED.nodes.registerType(nodeLabel, {
-        category: 'EXPERIMENTAL',
+        category: 'Events',
         color: '#E6E0F8',
         defaults: {
             name: { value: '' },

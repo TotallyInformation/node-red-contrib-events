@@ -1,5 +1,6 @@
 <p>
     Event-driven notifications. Create an event from an input msg.topic.
+    Any <code>event-in</code> node with a matching topic specified will receive the input msg.
 </p>
 
 <h3>Inputs</h3>
@@ -13,7 +14,7 @@
 
 <h3>Outputs</h3>
 <p>
-    There are currently no outputs
+    If <code>passthrough</code> is set, the input message is sent to the output.
 </p>
 
 <h3>Node Settings</h3>
@@ -23,4 +24,10 @@
 
     <dt>Topic <span class="property-type">string</span></dt>
     <dd>A topic name to use if the incoming msg does not contain one.</dd>
+
+    <dt>passthrough <span class="property-type">boolean</span></dt>
+    <dd>
+        If selected, an output port will appear and any input msg will be also delivered to the output.
+        This allows you to use the node in-line with a flow but still benefit from listeners elsewhere in your flows and tabs.
+    </dd>
 </dl>
