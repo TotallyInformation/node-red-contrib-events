@@ -136,10 +136,18 @@ async function createTag(cb) {
     cb()
 }
 
+/** Publish to npmjs.org registry as a public package */
+async function publish(cb) {
+    await execa('git', ['npm', 'publish', '--access public'], { stdio })
+
+    cb()
+}
+
 //exports.default     = series( packfe, combineHtml ) // series(runLinter,parallel(generateCSS,generateHTML),runTests)
 exports.buildPanelSrcIn  = buildPanelSrcIn
 exports.buildPanelSrcOut = buildPanelSrcOut
 exports.watch       = watchme
 exports.build       = parallel( buildPanelSrcIn, buildPanelSrcOut)
 exports.createTag   = createTag
+exports.publish     = publish
 exports.setVersion  = setPackageVersion //series( setPackageVersion, setFeVersion, setFeVersionMin )
