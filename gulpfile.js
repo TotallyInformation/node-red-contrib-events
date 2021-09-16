@@ -113,7 +113,13 @@ async function setPackageVersion() {
 /** Create a new GitHub tag for a release (only if release ver # different to last committed tag) */
 async function createTag(cb) {
     //Get the last committed tag: git describe --tags --abbrev=0
-    const lastTag = (await execa('git', ['describe', '--tags', '--abbrev=0'])).stdout
+    let lastTag
+    try {
+        lastTag = (await execa('git', ['describe', '--tags', '--abbrev=0'])).stdout
+    } catch (e) {
+        lastTag = ''
+    }
+
     console.log(`Last committed tag: ${lastTag}`)
 
     // If the last committed tag is different to the required release ...
