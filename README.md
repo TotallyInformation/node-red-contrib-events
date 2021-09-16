@@ -31,6 +31,12 @@ THe `event-out` node supports topic wildcards using `*`, `/` is recognised as a 
 
 Contact the author if you want to make use of this package's event system in other nodes.
 
+## Installation
+
+To install from the standard npmjs registry: `npm install @totallyinformation/node-red-contrib-events`
+
+To install from GitHub: `npm install TotallyInformation/node-red-contrib-events`
+
 ## Dependencies
 
 * [EventEmitter2](https://github.com/EventEmitter2/EventEmitter2) - allows wildcards for event handlers
