@@ -1,5 +1,5 @@
 {
-  "name": "@totallyinfo/node-red-contrib-events",
+  "name": "@totallyinformation/node-red-contrib-events",
   "version": "1.0.0",
   "description": "Event broadcast and receive nodes for Node-RED.",
   "keywords": [
