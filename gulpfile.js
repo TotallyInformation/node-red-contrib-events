@@ -138,7 +138,7 @@ async function createTag(cb) {
 
 /** Publish to npmjs.org registry as a public package */
 async function publish(cb) {
-    await execa('git', ['npm', 'publish', '--access public'], { stdio })
+    await execa('npm', ['publish', '--access', 'public'], { stdio })
 
     cb()
 }
