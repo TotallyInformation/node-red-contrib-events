@@ -51,7 +51,7 @@ const stdio = 'inherit'
 const { version } = JSON.parse(fs.readFileSync('package.json'))
 
 // What release/version do we want to end up with?
-const release = '1.0.0'
+const release = '1.1.0'
 
 // Locations
 const nodeDest = 'nodes'
@@ -88,12 +88,23 @@ function buildPanelSrcOut(cb) {
 
     cb()
 }
+/** Combine the parts of event-return.html file */
+function buildPanelSrcReturn(cb) {
+    src('src/editor/event-return/main.html')
+        .pipe(include())
+        .pipe(once())
+        .pipe(rename('event-return.html'))
+        .pipe(dest(nodeDest))
+
+    cb()
+}
 
 /** Watch for changes during development of uibuilderfe & editor */
 function watchme(cb) {
     // Re-combine uibuilder.html if the source changes
     watch('src/editor/event-in/*', buildPanelSrcIn)
     watch('src/editor/event-out/*', buildPanelSrcOut)
+    watch('src/editor/event-return/*', buildPanelSrcReturn)
 
     cb()
 }
@@ -146,6 +157,7 @@ async function publish(cb) {
 //exports.default     = series( packfe, combineHtml ) // series(runLinter,parallel(generateCSS,generateHTML),runTests)
 exports.buildPanelSrcIn  = buildPanelSrcIn
 exports.buildPanelSrcOut = buildPanelSrcOut
+exports.buildPanelSrcReturn = buildPanelSrcReturn
 exports.watch       = watchme
 exports.build       = parallel( buildPanelSrcIn, buildPanelSrcOut)
 exports.createTag   = createTag

@@ -1,0 +1,128 @@
+<!--
+    Copyright (c) 2021 Julian Knight (Totally Information)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<script type="text/javascript">
+/* eslint-disable strict */
+
+// Isolate this code
+(function () {
+    'use strict'
+
+    const nodeLabel = 'event-return'
+
+    /** Prep for edit
+     * @param {*} node -
+     */
+    function onEditPrepare(node) {
+        // initial checkbox states
+        if (!node.passthrough) node.passthrough = false
+        $('#node-input-passthrough')
+            // Initial setting
+            .prop('checked', node.passthrough)
+            // If the setting changes, change the number of output ports
+            .on('change', function passthroughChange() {
+                node.outputs = this.checked ? 1 : 0
+            })
+    }
+
+    RED.nodes.registerType(nodeLabel, {
+        category: 'Events',
+        color: '#E6E0F8',
+        defaults: {
+            name: { value: '' },
+            topic: { value: '' },
+            passthrough: { value: false },
+            outputs: { value: 0 },
+        },
+        align:'right',
+        inputs: 1,
+        inputLabels: 'Msg with topic property',
+        outputs: 0,
+        outputLabels: ['Input msg with node ID added'],
+        icon: 'link-out.svg',
+        paletteLabel: nodeLabel,
+        label: function () { return this.name || this.topic || nodeLabel },
+
+        oneditprepare: function() { onEditPrepare(this) },
+        
+    }) // ---- End of registerType() ---- //
+
+}())
+
+</script>
+
+<script type="text/html" data-template-name="event-return">
+<div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name">
+</div>
+<div class="form-row">
+    <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+    <input type="text" id="node-input-topic">
+</div>
+<div class="form-row">
+    <input type="checkbox" id="node-input-passthrough" style="display:inline-block; width:15px; vertical-align:baseline;">
+    <label for="node-input-passthrough" style="width: 90%;">Pass input msg to output?</label>
+</div>
+
+</script>
+
+<script type="text/html" data-help-name="event-return">
+<p>
+    Event-driven notifications. Return a msg back to the <code>event-out</code> node that originated this flow.<br>
+    This node <b>must</b> be at the end of a flow that starts with an <code>event-in</code> node.
+    It requires the <code>msg._eventOriginator</code> property to exist and contain the node-id of the originating
+    <code>event-out</code> node.<br>
+    This allows you to create a code <i>LOOP</i> in your flows.
+</p>
+
+<h3>Inputs</h3>
+<dl class="message-properties">
+    <dt class="required">_eventOriginator <span class="property-type">string</span></dt>
+    <dd> REQUIRED, the node ID of the originating <code>event-out</code> node. </dd>
+</dl>
+<p>
+    All other input msg properties are passed back to the originating <code>event-out</code> node.
+</p>
+
+<h3>Outputs</h3>
+<p>
+    All input msg properties are passed back to the originating <code>event-out</code> node.
+    The input <code>msg.topic</code> may be overridden using the Node Settings.
+</p>
+<p>
+    <code>msg._eventOriginator</code> is added to the output msg to help with flow debugging should you need it.
+</p>
+<p>
+    If <code>passthrough</code> is set, the input message is sent to the output.
+</p>
+
+<h3>Node Settings</h3>
+<dl class="message-properties">
+    <dt>Name <span class="property-type">string</span></dt>
+    <dd>A short description shown in the admin interface</dd>
+
+    <dt>Topic <span class="property-type">string</span></dt>
+    <dd>If provided, will overwrite the topic provided in the input msg.</dd>
+
+    <dt>passthrough <span class="property-type">boolean</span></dt>
+    <dd>
+        If selected, an output port will appear and any input msg will be also delivered to the output.
+        This allows you to use the node in-line with a flow but still benefit from listeners elsewhere in your flows and tabs.
+    </dd>
+</dl>
+
+</script>

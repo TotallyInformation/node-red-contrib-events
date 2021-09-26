@@ -21,10 +21,12 @@
     "version": ">=2.0.0",
     "nodes": {
       "event-in": "nodes/event-in.js",
-      "event-out": "nodes/event-out.js"
+      "event-out": "nodes/event-out.js",
+      "event-return": "nodes/event-return.js"
     }
   },
   "dependencies": {
+    "@totallyinformation/ti-common-event-handler": "file:../ti-common-event-handler",
     "eventemitter2": "^6.4.4"
   },
   "devDependencies": {

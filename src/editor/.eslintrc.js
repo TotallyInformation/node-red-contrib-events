@@ -17,6 +17,7 @@ module.exports = {
         node: false,
         'shared-node-browser': false
     },
+    //root: true,
     parserOptions: {
         ecmaVersion: 2015,
         sourceType: 'script'

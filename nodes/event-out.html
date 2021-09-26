@@ -27,14 +27,25 @@
      * @param {*} node -
      */
     function onEditPrepare(node) {
-        // initial checkbox states
-        if (!node.passthrough) node.passthrough = false
-        $('#node-input-passthrough')
-            // Initial setting
-            .prop('checked', node.passthrough)
+
+        // Handle v1.0 legacy
+        if (node.passthrough === true) $('#node-input-passthrough').val('input') //node.passthrough = 'input'
+        else if (node.passthrough === false) $('#node-input-passthrough').val('none') //node.passthrough = 'none'
+
+        // Initial state
+        $(`#passthrough-${node.passthrough}`).attr('checked', true)
+
+        // Handle change on radio inputs
+        $('[name="passthrough"]')
             // If the setting changes, change the number of output ports
-            .on('change', function passthroughChange() {
-                node.outputs = this.checked ? 1 : 0
+            .on('change', function passthroughChange(event) {
+                let passthrough = event.target.id.replace('passthrough-', '')
+
+                $('#node-input-passthrough').val(passthrough)
+
+                if ( passthrough === 'none') node.outputs = 0
+                else node.outputs = 1
+
             })
     }
 
@@ -44,17 +55,27 @@
         defaults: {
             name: { value: '' },
             topic: { value: '' },
-            passthrough: { value: false },
+            passthrough: { value: 'none', required:true },
             outputs: { value: 0 },
         },
         align:'right',
         inputs: 1,
         inputLabels: 'Msg with topic property',
         outputs: 0,
-        outputLabels: ['Input msg with node ID added'],
+        outputLabels: function (i) { return this.passthrough === 'return' ? 'msg returned from event-return node' : 'Input msg with node ID added' }, // eslint-disable-line no-unused-vars
         icon: 'link-out.svg',
         paletteLabel: nodeLabel,
         label: function () { return this.name || this.topic || nodeLabel },
+
+        /** Available methods: 
+         * oneditprepare: (function) called when the edit dialog is being built.
+         * oneditsave:   (function) called when the edit dialog is okayed.
+         * oneditcancel: (function) called when the edit dialog is canceled.
+         * oneditdelete: (function) called when the delete button in a configuration node’s edit dialog is pressed.
+         * oneditresize: (function) called when the edit dialog is resized.
+         * onpaletteadd: (function) called when the node type is added to the palette.
+         * onpaletteremove: (function) called when the node type is removed from the palette.
+         */
 
         oneditprepare: function() { onEditPrepare(this) },
         
@@ -73,11 +94,30 @@
     <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
     <input type="text" id="node-input-topic">
 </div>
-<div class="form-row">
-    <input type="checkbox" id="node-input-passthrough" style="display:inline-block; width:15px; vertical-align:baseline;">
-    <label for="node-input-passthrough" style="width: 90%;">Pass input msg to output?</label>
-</div>
 
+<div class="form-row" style="border: 1px solid silver;width:auto;padding:1em;">
+    <input type="text" id="node-input-passthrough" style="display:none;">
+
+    <div style="padding-bottom: 1em;width:29em;">
+        This node has an optional output port that either passes the input msg to the output.
+        Or it uses a <code>event-return</code> node allowing flow loops to be easily created:
+    </div>
+
+    <div>
+        <input type="radio" id="passthrough-none" value="none" name="passthrough" style="width: auto; vertical-align: baseline;">
+        <label for="passthrough-none" style="min-width:20em;">No outputs.</label>
+    </div>
+
+    <div>
+        <input type="radio" id="passthrough-input" value="input" name="passthrough" style="width: auto; vertical-align: baseline;">
+        <label for="passthrough-input" style="min-width:20em;">Pass input msg to output?</label>
+    </div>
+
+    <div>
+        <input type="radio" id="passthrough-return" value="return" name="passthrough" style="width: auto; vertical-align: baseline;">
+        <label for="passthrough-return" style="min-width:20em;">Allow output from a <code>event-return</code> node?</label>
+    </div>
+</div>
 </script>
 
 <script type="text/html" data-help-name="event-out">

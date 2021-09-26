@@ -26,7 +26,7 @@
 
 //#region ----- Module level variables ---- //
 
-const emitter = require('./libs/events.js')
+const tiEvents = require('@totallyinformation/ti-common-event-handler')
 
 /** Main (module) variables - acts as a configuration object
  *  that can easily be passed around.
@@ -62,7 +62,7 @@ function nodeInstance(config) {
     this.topic = this.topic.replace(/#/g, '**').replace(/\+/g, '*')
 
     // Add the unique prefix for these nodes (allows the event system to be reused in other nodes)
-    const eventName = `Contrib-Events:${this.topic}`
+    const eventName = `node-red-contrib-events/${this.topic}`
 
     // Event handler
     const sender = (msg) => {
@@ -70,7 +70,7 @@ function nodeInstance(config) {
     }
 
     // Create new listener for the given topic, record it so that it can be removed on close
-    emitter.on(eventName, sender)
+    tiEvents.on(eventName, sender)
 
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.
@@ -79,7 +79,7 @@ function nodeInstance(config) {
      */
     this.on('close', (removed, done) => { 
         // Remove this event listener
-        emitter.removeListener(eventName, sender)
+        tiEvents.removeListener(eventName, sender)
 
         done()
     })

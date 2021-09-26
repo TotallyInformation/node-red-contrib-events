@@ -1,0 +1,43 @@
+<p>
+    Event-driven notifications. Return a msg back to the <code>event-out</code> node that originated this flow.<br>
+    This node <b>must</b> be at the end of a flow that starts with an <code>event-in</code> node.
+    It requires the <code>msg._eventOriginator</code> property to exist and contain the node-id of the originating
+    <code>event-out</code> node.<br>
+    This allows you to create a code <i>LOOP</i> in your flows.
+</p>
+
+<h3>Inputs</h3>
+<dl class="message-properties">
+    <dt class="required">_eventOriginator <span class="property-type">string</span></dt>
+    <dd> REQUIRED, the node ID of the originating <code>event-out</code> node. </dd>
+</dl>
+<p>
+    All other input msg properties are passed back to the originating <code>event-out</code> node.
+</p>
+
+<h3>Outputs</h3>
+<p>
+    All input msg properties are passed back to the originating <code>event-out</code> node.
+    The input <code>msg.topic</code> may be overridden using the Node Settings.
+</p>
+<p>
+    <code>msg._eventOriginator</code> is added to the output msg to help with flow debugging should you need it.
+</p>
+<p>
+    If <code>passthrough</code> is set, the input message is sent to the output.
+</p>
+
+<h3>Node Settings</h3>
+<dl class="message-properties">
+    <dt>Name <span class="property-type">string</span></dt>
+    <dd>A short description shown in the admin interface</dd>
+
+    <dt>Topic <span class="property-type">string</span></dt>
+    <dd>If provided, will overwrite the topic provided in the input msg.</dd>
+
+    <dt>passthrough <span class="property-type">boolean</span></dt>
+    <dd>
+        If selected, an output port will appear and any input msg will be also delivered to the output.
+        This allows you to use the node in-line with a flow but still benefit from listeners elsewhere in your flows and tabs.
+    </dd>
+</dl>

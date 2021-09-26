@@ -1,4 +1,4 @@
-/** Converts an input msg to an event, passes the msg via the event.
+/** Sends a msg back to the event-out node that originated an event-in flow.
  *  Destructured to make for easier and more consistent logic.
  * 
  * Copyright (c) 2021 Julian Knight (Totally Information)
@@ -36,7 +36,7 @@ const mod = {
     /** @type {runtimeRED} Reference to the master RED instance */
     RED: undefined,
     /** @type {string} Custom Node Name - has to match with html file and package.json `red` section */
-    nodeName: 'event-out',
+    nodeName: 'event-return',
 }
 
 //#endregion ----- Module level variables ---- //
@@ -56,32 +56,27 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
     // If you need it - or just use mod.RED if you prefer:
     //const RED = mod.RED
 
-    let topic = msg.topic
+    // Override the msg.topic if one is set in the node
+    if ( this.topic ) msg.topic = this.topic
 
-    // Default topic from the settings if the msg doesn't define one
-    if ( (! topic) && this.topic ) topic = this.topic
-    if ( ! topic ) topic = ''
-
-    // Sanitise the topic & report errors - it must be a string and no more than 255 chars. It should not contain `*`, `#` or `+`
-    let topicErrors = []
-    if ( topic.length < 1 ) topicErrors.push('Topic is empty')
-    if ( topic.length > 255 ) topicErrors.push('Topic is >255 characters long')
-    if ( topic.includes('#') ) topicErrors.push('Topic contains a `#` wildcard character')
-    if ( topic.includes('+') ) topicErrors.push('Topic contains a `+` wildcard character')
-    if ( topic.includes('*') ) topicErrors.push('Topic contains a `*` wildcard character')
-    if ( topicErrors.length !== 0 ) {
-        done(`Input topic is invalid: ${topicErrors.join(', ')}`)
+    // Does the input msg contain a msg._eventOriginator property? If not, error
+    if ( ! msg._eventOriginator ) {
+        mod.RED.log.error('[event-out] Received msg without an "_eventOriginator" property, cannot return the msg')
+        done()
         return
     }
 
-    // Ensure that the event name is unique for these nodes (since the event handler may be reused in other nodes)
-    const eventName = `node-red-contrib-events/${topic}`
-    // Add the originating node id to make tracing easier
-    msg._eventOriginator = this.id
+    // Where to return the msg to? Uses the originating node id
+    const eventName = `node-red-contrib-events/return/${msg._eventOriginator}`
+
+    // Change the originating node id to this node to make tracing easier
+    msg._eventReturner = this.id
+
     // Emit the event
     tiEvents.emit(eventName, msg)
-    
-    if ( this.passthrough === 'input' ) send(msg) // If passthrough set to 'input', send the msg to the output port
+
+    // If passthrough is enabled, send the msg
+    if ( this.passthrough === true ) send(msg)
 
     // We are done
     done()
@@ -103,13 +98,7 @@ function nodeInstance(config) {
     // Transfer config items from the Editor panel to the runtime
     this.name = config.name
     this.topic = config.topic || ''
-    this.passthrough = config.passthrough || 'none'
-
-    // Handle v1.0 legacy
-    if ( this.passthrough === false ) this.passthrough = 'none'
-    else if ( this.passthrough === true ) this.passthrough = 'input'
-
-    console.log('>> passthough >> ', this.passthrough, this.id)
+    this.passthrough = config.passthrough
 
     /** Handle incoming msg's - note that the handler fn inherits `this`
      *  The inputMsgHandler function is executed every time this instance
@@ -117,26 +106,16 @@ function nodeInstance(config) {
      */
     this.on('input', inputMsgHandler)
 
-    if ( this.passthrough === 'return' ) {   // if set to 'return', set up a return listener
-        tiEvents.on(`node-red-contrib-events/return/${this.id}`, (msg) => {
-            this.send(msg)
-        })
-    }
-
-
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.
      * Note the use of an arrow function, ensures that the function keeps the
      * same `this` context and so has access to all of the node instance properties.
      */
-    this.on('close', (removed, done) => { 
-        console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
+    // this.on('close', (removed, done) => { 
+    //     console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
 
-        // Cancel any return listeners for this node
-        tiEvents.removeAllListeners(`node-red-contrib-events/return/${this.id}`)
-
-        done()
-    })
+    //     done()
+    // })
 
     /** Properties of `this`
      * Methods: updateWires(wires), context(), on(event,callback), emit(event,...args), removeListener(name,listener), removeAllListeners(name), close(removed)
@@ -151,7 +130,7 @@ function nodeInstance(config) {
 /** 1) Complete module definition for our Node. This is where things actually start.
  * @param {runtimeRED} RED The Node-RED runtime object
  */
-function EventOut(RED) {
+function EventReturn(RED) {
     // As a module-level named function, it will inherit `mod` and other module-level variables
 
     // Save a reference to the RED runtime for convenience
@@ -162,6 +141,6 @@ function EventOut(RED) {
 }
 
 // Export the module definition (1), this is consumed by Node-RED on startup.
-module.exports = EventOut
+module.exports = EventReturn
 
 //EOF

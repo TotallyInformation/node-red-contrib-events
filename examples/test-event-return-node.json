@@ -1,0 +1,323 @@
+[
+    {
+        "id": "2ed61b0d11d288b2",
+        "type": "group",
+        "z": "72a4f122d5e4dcd2",
+        "name": "2a) Can also carry on flow (2) if needed \\n ",
+        "style": {
+            "label": true,
+            "fill": "#bfdbef",
+            "fill-opacity": "0.32",
+            "color": "#000000"
+        },
+        "nodes": [
+            "9e393ed964d607bc"
+        ],
+        "x": 834,
+        "y": 283,
+        "w": 253,
+        "h": 98
+    },
+    {
+        "id": "9e393ed964d607bc",
+        "type": "debug",
+        "z": "72a4f122d5e4dcd2",
+        "g": "2ed61b0d11d288b2",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "595a46a8426bc2b7",
+        "type": "group",
+        "z": "72a4f122d5e4dcd2",
+        "name": "1) Start a flow & output to event topic \\n ",
+        "style": {
+            "label": true,
+            "fill": "#92d04f",
+            "fill-opacity": "0.39",
+            "color": "#000000"
+        },
+        "nodes": [
+            "c2324b8d22c10436",
+            "c407f35251cf8581",
+            "5143bd823f8a1f8a"
+        ],
+        "x": 234,
+        "y": 123,
+        "w": 512,
+        "h": 138
+    },
+    {
+        "id": "c2324b8d22c10436",
+        "type": "inject",
+        "z": "72a4f122d5e4dcd2",
+        "g": "595a46a8426bc2b7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "test/two",
+        "payloadType": "date",
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "c407f35251cf8581"
+            ]
+        ]
+    },
+    {
+        "id": "c407f35251cf8581",
+        "type": "event-out",
+        "z": "72a4f122d5e4dcd2",
+        "g": "595a46a8426bc2b7",
+        "name": "",
+        "topic": "",
+        "passthrough": "return",
+        "outputs": 1,
+        "x": 660,
+        "y": 220,
+        "wires": [
+            [
+                "8f670ea155b988fd"
+            ]
+        ]
+    },
+    {
+        "id": "5143bd823f8a1f8a",
+        "type": "comment",
+        "z": "72a4f122d5e4dcd2",
+        "g": "595a46a8426bc2b7",
+        "name": "Expect 3 outputs from this input",
+        "info": "",
+        "x": 390,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "719163c89c6c40bf",
+        "type": "group",
+        "z": "72a4f122d5e4dcd2",
+        "name": "Test that return fails without an _eventOriginator property \\n ",
+        "style": {
+            "label": true,
+            "stroke": "#ff0000",
+            "stroke-opacity": "0.49",
+            "fill": "#ff0000",
+            "fill-opacity": "0.14",
+            "color": "#000000"
+        },
+        "nodes": [
+            "740614a97e5bf213",
+            "375add36fc743eb5",
+            "a182dccea7139ed8"
+        ],
+        "x": 234,
+        "y": 483,
+        "w": 432,
+        "h": 138
+    },
+    {
+        "id": "740614a97e5bf213",
+        "type": "inject",
+        "z": "72a4f122d5e4dcd2",
+        "g": "719163c89c6c40bf",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "test/one",
+        "payloadType": "date",
+        "x": 370,
+        "y": 580,
+        "wires": [
+            [
+                "a182dccea7139ed8"
+            ]
+        ]
+    },
+    {
+        "id": "375add36fc743eb5",
+        "type": "comment",
+        "z": "72a4f122d5e4dcd2",
+        "g": "719163c89c6c40bf",
+        "name": "Expect an error from this input",
+        "info": "",
+        "x": 380,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a182dccea7139ed8",
+        "type": "event-return",
+        "z": "72a4f122d5e4dcd2",
+        "g": "719163c89c6c40bf",
+        "name": "",
+        "topic": "",
+        "passthrough": false,
+        "outputs": 0,
+        "x": 570,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "7cb705144ce71512",
+        "type": "group",
+        "z": "72a4f122d5e4dcd2",
+        "name": "3) Resume the original flow after (2) \\n ",
+        "style": {
+            "label": true,
+            "fill": "#c8e7a7",
+            "fill-opacity": "0.39",
+            "color": "#000000"
+        },
+        "nodes": [
+            "8f670ea155b988fd"
+        ],
+        "x": 834,
+        "y": 163,
+        "w": 231,
+        "h": 98
+    },
+    {
+        "id": "8f670ea155b988fd",
+        "type": "debug",
+        "z": "72a4f122d5e4dcd2",
+        "g": "7cb705144ce71512",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "fd43e0df4faa8658",
+        "type": "group",
+        "z": "72a4f122d5e4dcd2",
+        "name": "2) Listen for the event topic and do some stuff, then return to the original flow \\n ",
+        "style": {
+            "label": true,
+            "fill": "#7fb7df",
+            "fill-opacity": "0.34",
+            "color": "#000000"
+        },
+        "nodes": [
+            "f010dbf8a8087a75",
+            "87e7986c04473176",
+            "131a31b563a027d1",
+            "f3f2c4461dac325f"
+        ],
+        "x": 234,
+        "y": 283,
+        "w": 532,
+        "h": 138
+    },
+    {
+        "id": "f010dbf8a8087a75",
+        "type": "event-in",
+        "z": "72a4f122d5e4dcd2",
+        "g": "fd43e0df4faa8658",
+        "name": "",
+        "topic": "test/two",
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "131a31b563a027d1"
+            ]
+        ]
+    },
+    {
+        "id": "87e7986c04473176",
+        "type": "event-return",
+        "z": "72a4f122d5e4dcd2",
+        "g": "fd43e0df4faa8658",
+        "name": "",
+        "topic": "",
+        "passthrough": true,
+        "outputs": 1,
+        "x": 670,
+        "y": 340,
+        "wires": [
+            [
+                "9e393ed964d607bc"
+            ]
+        ]
+    },
+    {
+        "id": "131a31b563a027d1",
+        "type": "function",
+        "z": "72a4f122d5e4dcd2",
+        "g": "fd43e0df4faa8658",
+        "name": "Do Something",
+        "func": "msg.more = 'Hello, my function added this'\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 340,
+        "wires": [
+            [
+                "f3f2c4461dac325f",
+                "87e7986c04473176"
+            ]
+        ]
+    },
+    {
+        "id": "f3f2c4461dac325f",
+        "type": "debug",
+        "z": "72a4f122d5e4dcd2",
+        "g": "fd43e0df4faa8658",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 380,
+        "wires": []
+    }
+]
