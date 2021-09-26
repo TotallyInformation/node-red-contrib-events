@@ -17,6 +17,8 @@ This allows you to create sub-flows (sub-routines) and loops very easily.
 
 ## Notes
 
+* For the most part, nodes like this should be avoided because then can make the tracing of your logic hard if you aren't careful.
+  However, used with care, these are very powerful but simple to use nodes that can greatly simplify certain types of logic.
 * The event handler is shared between the nodes. Event names are the `msg.topic` prefixed with `Contrib-Events:`.
 * A separate event handler is needed because the Node-RED core devs want to make sure that Node-RED's own event handlers are not used by contributed nodes.
   These nodes use a separate event handler module that is shared with other nodes from me including node-red-contrib-uibuilder.
@@ -86,12 +88,7 @@ You can also override the msg.topic for the output if you wish.
 * `link-in`/`link-out` are core nodes, they use Node.js's event system but are linked by source/destination node ID rather than by topic.
 * **[node-red-contrib-topic-link](https://flows.nodered.org/node/node-red-contrib-topic-link)** - uses `set`s and a map and may need a deep object copy. Does not use events. Supports MQTT-style wildcards. This is the node most similar to what I'm doing. The usage is very similar, it is mostly the execution that is different.
 * [node-red-contrib-sub-link](https://flows.nodered.org/node/node-red-contrib-sub-link) - does not use Node.js's native event system and requires configuration. Supports MQTT-style wildcards.
-* [](https://flows.nodered.org/node/node-red-contrib-pubsub) - source code not published. They manually do what the native event system does for you. They manually convert msg objects to a string and back. The stringify process isn't wrapped in a try/catch which may be a little fragile. And finally, they don't support wildcard subscriptions.
-
-## Thoughts for future enhancements
-
-* Allow `event-out` node to have a return event. On receipt of the return event, output the return msg. This provides a route for sub-routines. Use the out node's ID as the event name.
-* Add `event-return` node. Note that any flow from the event-in to the event-return HAS to retain the `msg._eventOriginator` property
+* [node-red-contrib-pubsub](https://flows.nodered.org/node/node-red-contrib-pubsub) - source code not published. They manually do what the native event system does for you. They manually convert msg objects to a string and back. The stringify process isn't wrapped in a try/catch which may be a little fragile. And finally, they don't support wildcard subscriptions.
 
 ## Change Log
 
