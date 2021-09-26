@@ -45,26 +45,26 @@ const fs = require('fs')
 
 //#region >>>> Vars - change as needed <<<< //
 
-// print output of commands into the terminal
-const stdio = 'inherit'
-
-const { version } = JSON.parse(fs.readFileSync('package.json'))
-
 // What release/version do we want to end up with?
-const release = '1.1.0'
+const release = '1.1.1'
 
 // Locations
 const nodeDest = 'nodes'
 
 //#endregion ------------------------------ //
 
-console.log(`Current Version: ${version}. Requested Version: ${release}`)
-
 /** 
  * TODO
  *  - Add text replace to ensure 2021 in (c) blocks is current year
  *  - Add improvements to build so that we can have a generic name in the src code as a template
  */
+
+// print output of commands into the terminal
+const stdio = 'inherit'
+
+const { version } = JSON.parse(fs.readFileSync('package.json'))
+
+console.log(`Current Version: ${version}. Requested Version: ${release}`)
 
 //#region >>>> Build/Watch - add a function for each node <<<<
 

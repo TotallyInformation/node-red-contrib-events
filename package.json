@@ -1,6 +1,6 @@
 {
   "name": "@totallyinformation/node-red-contrib-events",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Event broadcast and receive nodes for Node-RED.",
   "keywords": [
     "events",
@@ -15,7 +15,10 @@
   "main": "none",
   "scripts": {
     "build": "gulp build",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "setPackageVersion": "gulp setPackageVersion",
+    "createTag": "gulp createTag",
+    "publish": "publish"
   },
   "node-red": {
     "version": ">=2.0.0",
@@ -26,17 +29,17 @@
     }
   },
   "dependencies": {
-    "@totallyinformation/ti-common-event-handler": "file:../ti-common-event-handler",
+    "@totallyinformation/ti-common-event-handler": "^1.0.0",
     "eventemitter2": "^6.4.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/jquery": "^3.5.6",
-    "@types/node": "^14.17.15",
+    "@types/node": "^14.17.19",
     "@types/node-red": "^1.1.1",
     "eslint": "^7.32.0",
     "eslint-plugin-es": "^4.1.0",
-    "eslint-plugin-html": "^6.1.2",
+    "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-jsdoc": "^36.0.8",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-sonarjs": "^0.10.0",
