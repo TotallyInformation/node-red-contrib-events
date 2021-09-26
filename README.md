@@ -19,7 +19,7 @@ This allows you to create sub-flows (sub-routines) and loops very easily.
 
 * For the most part, nodes like this should be avoided because then can make the tracing of your logic hard if you aren't careful.
   However, used with care, these are very powerful but simple to use nodes that can greatly simplify certain types of logic.
-* The event handler is shared between the nodes. Event names are the `msg.topic` prefixed with `Contrib-Events:`.
+* The event handler is shared between the nodes. Event names are the `msg.topic` prefixed with `node-red-contrib-events/`. Return events use `node-red-contrib-events/return/<node.id>` 
 * A separate event handler is needed because the Node-RED core devs want to make sure that Node-RED's own event handlers are not used by contributed nodes.
   These nodes use a separate event handler module that is shared with other nodes from me including node-red-contrib-uibuilder.
   That means that these nodes will (in the future) interact with uibuilder where needed but are not dependent.

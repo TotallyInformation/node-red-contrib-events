@@ -1,4 +1,4 @@
-## 1.1.1 - Improvements & new event-return node (2021-09-26)
+## 1.1.2 - Improvements & new event-return node (2021-09-26)
 
 ### New
 
