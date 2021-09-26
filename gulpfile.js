@@ -46,7 +46,7 @@ const fs = require('fs')
 //#region >>>> Vars - change as needed <<<< //
 
 // What release/version do we want to end up with?
-const release = '1.1.1'
+const release = '1.1.2'
 
 // Locations
 const nodeDest = 'nodes'

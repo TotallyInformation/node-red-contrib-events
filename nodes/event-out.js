@@ -109,8 +109,6 @@ function nodeInstance(config) {
     if ( this.passthrough === false ) this.passthrough = 'none'
     else if ( this.passthrough === true ) this.passthrough = 'input'
 
-    console.log('>> passthough >> ', this.passthrough, this.id)
-
     /** Handle incoming msg's - note that the handler fn inherits `this`
      *  The inputMsgHandler function is executed every time this instance
      *  of the node receives a msg in a flow.
@@ -130,7 +128,6 @@ function nodeInstance(config) {
      * same `this` context and so has access to all of the node instance properties.
      */
     this.on('close', (removed, done) => { 
-        console.log('>>>=[IN 4]=>>> [nodeInstance:close] Closing. Removed?: ', removed)
 
         // Cancel any return listeners for this node
         tiEvents.removeAllListeners(`node-red-contrib-events/return/${this.id}`)
