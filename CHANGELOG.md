@@ -1,8 +1,13 @@
 ## 1.1.3 - Bug Fix (2021-09-27)
 
+### New
+
+* Additional example flow included for testing multi-level out and return.
+
 ### Changed
 
 * Change return node so that topic setting doesn't override the msg.topic. The topic setting in the node will now only be used if the inbound msg has no topic.
+* Previous example flows updated.
 
 ### Fixed
 
