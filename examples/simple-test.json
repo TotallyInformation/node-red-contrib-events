@@ -2,10 +2,10 @@
     {
         "id": "b8d40388d72e6e0e",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "",
         "topic": "examples/**",
-        "x": 810,
+        "x": 790,
         "y": 320,
         "wires": [
             [
@@ -16,7 +16,7 @@
     {
         "id": "9bba81f838846069",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -26,14 +26,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 320,
         "wires": []
     },
     {
         "id": "0d0a35162e82055a",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -43,14 +43,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 380,
         "wires": []
     },
     {
         "id": "67928932778fceff",
         "type": "group",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "Valid Input Messages \\n ",
         "style": {
             "stroke": "#92d04f",
@@ -69,7 +69,7 @@
             "76d3d6e0b6559112",
             "18205a9c2c4b3b4a"
         ],
-        "x": 54,
+        "x": 34,
         "y": 23,
         "w": 572,
         "h": 318
@@ -77,7 +77,7 @@
     {
         "id": "cd7e74689f80d6d8",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "Expect 6 outputs",
         "props": [
@@ -101,7 +101,7 @@
         "topic": "examples/example1",
         "payload": "I am example 1",
         "payloadType": "str",
-        "x": 180,
+        "x": 160,
         "y": 80,
         "wires": [
             [
@@ -112,7 +112,7 @@
     {
         "id": "b6e339b8d119ffd2",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "Expect 5 outputs",
         "props": [
@@ -136,7 +136,7 @@
         "topic": "examples/example2",
         "payload": "I am example 2",
         "payloadType": "str",
-        "x": 180,
+        "x": 160,
         "y": 120,
         "wires": [
             [
@@ -147,7 +147,7 @@
     {
         "id": "fc38ec1067519f20",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "Multi-level: Expect 2 outputs",
         "props": [
@@ -171,7 +171,7 @@
         "topic": "examples/example3/another/level",
         "payload": "I am example 3",
         "payloadType": "str",
-        "x": 220,
+        "x": 200,
         "y": 160,
         "wires": [
             [
@@ -182,19 +182,20 @@
     {
         "id": "80372eb0451d3972",
         "type": "event-out",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "",
         "topic": "defaultTopic",
+        "passthrough": "none",
         "outputs": 0,
-        "x": 530,
+        "x": 510,
         "y": 80,
         "wires": []
     },
     {
         "id": "dc2785b950617d59",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "No topic (default enabled): Expect 1 output",
         "props": [
@@ -214,7 +215,7 @@
         "topic": "",
         "payload": "No topic example",
         "payloadType": "str",
-        "x": 260,
+        "x": 240,
         "y": 200,
         "wires": [
             [
@@ -225,7 +226,7 @@
     {
         "id": "80f0d09ccb354a9d",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "Passthrough",
         "props": [
@@ -249,7 +250,7 @@
         "topic": "examples/example2",
         "payload": "I am example 2",
         "payloadType": "str",
-        "x": 170,
+        "x": 150,
         "y": 300,
         "wires": [
             [
@@ -260,13 +261,13 @@
     {
         "id": "76d3d6e0b6559112",
         "type": "event-out",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "",
         "topic": "",
-        "passthrough": true,
+        "passthrough": "input",
         "outputs": 1,
-        "x": 340,
+        "x": 320,
         "y": 300,
         "wires": [
             [
@@ -277,7 +278,7 @@
     {
         "id": "18205a9c2c4b3b4a",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "67928932778fceff",
         "name": "",
         "active": true,
@@ -288,14 +289,14 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 510,
+        "x": 490,
         "y": 300,
         "wires": []
     },
     {
         "id": "883e090d8eb4b74f",
         "type": "group",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "Outputs - See the debug panel for valid and error outputs \\n ",
         "style": {
             "stroke": "#0070c0",
@@ -319,7 +320,7 @@
             "1f588e99bd69a8f9",
             "559741411257c600"
         ],
-        "x": 714,
+        "x": 694,
         "y": 23,
         "w": 392,
         "h": 518
@@ -327,7 +328,7 @@
     {
         "id": "8db94251f4bfc582",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -338,14 +339,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 80,
         "wires": []
     },
     {
         "id": "99ae35911f9beb07",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -356,14 +357,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 140,
         "wires": []
     },
     {
         "id": "357d18d1dc7409ba",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -374,18 +375,18 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 200,
         "wires": []
     },
     {
         "id": "bcbb58dc68b2cdd2",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "Example 1a",
         "topic": "examples/example1",
-        "x": 810,
+        "x": 790,
         "y": 80,
         "wires": [
             [
@@ -396,11 +397,11 @@
     {
         "id": "5d32ccc5f6501aa8",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "Example 1b ",
         "topic": "examples/example1",
-        "x": 810,
+        "x": 790,
         "y": 140,
         "wires": [
             [
@@ -411,11 +412,11 @@
     {
         "id": "93371ee03ba7cd9a",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "topic": "examples/example2",
-        "x": 830,
+        "x": 810,
         "y": 200,
         "wires": [
             [
@@ -426,7 +427,7 @@
     {
         "id": "e67d203a6f91357e",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -437,18 +438,18 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 260,
         "wires": []
     },
     {
         "id": "4dedcf6a355b32bf",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "topic": "examples/*",
-        "x": 800,
+        "x": 780,
         "y": 260,
         "wires": [
             [
@@ -459,7 +460,7 @@
     {
         "id": "2bd5446ca5b41eda",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -470,18 +471,18 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 500,
         "wires": []
     },
     {
         "id": "2406573246c81ef6",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "topic": "defaultTopic",
-        "x": 810,
+        "x": 790,
         "y": 500,
         "wires": [
             [
@@ -492,11 +493,11 @@
     {
         "id": "2140cf56b552fe1b",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "topic": "examples/+",
-        "x": 810,
+        "x": 790,
         "y": 380,
         "wires": [
             [
@@ -507,11 +508,11 @@
     {
         "id": "1f588e99bd69a8f9",
         "type": "event-in",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "topic": "examples/#",
-        "x": 810,
+        "x": 790,
         "y": 440,
         "wires": [
             [
@@ -522,7 +523,7 @@
     {
         "id": "559741411257c600",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "883e090d8eb4b74f",
         "name": "",
         "active": true,
@@ -533,14 +534,14 @@
         "targetType": "full",
         "statusVal": "payload",
         "statusType": "msg",
-        "x": 1010,
+        "x": 990,
         "y": 440,
         "wires": []
     },
     {
         "id": "f1d57f2323376d4f",
         "type": "group",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "name": "Error Tests \\n ",
         "style": {
             "stroke": "#ff0000",
@@ -561,7 +562,7 @@
             "88f335a6657f3025",
             "cbd27c0740d2df2c"
         ],
-        "x": 54,
+        "x": 34,
         "y": 363,
         "w": 572,
         "h": 358
@@ -569,7 +570,7 @@
     {
         "id": "48cff9ebf7f43376",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Topic >255 characters (error)",
         "props": [
@@ -588,7 +589,7 @@
         "topic": "123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/123/456/789/0/",
         "payload": "This topic is >255 chars - should generate an error",
         "payloadType": "str",
-        "x": 220,
+        "x": 200,
         "y": 420,
         "wires": [
             [
@@ -599,19 +600,19 @@
     {
         "id": "8962a5fe0b8d6288",
         "type": "event-out",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Error Tests",
         "topic": "",
         "outputs": 0,
-        "x": 530,
+        "x": 510,
         "y": 420,
         "wires": []
     },
     {
         "id": "88fae359279f773c",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "No topic and no default (error)",
         "props": [
@@ -626,7 +627,7 @@
         "topic": "",
         "payload": "No topic example & no default (should error)",
         "payloadType": "str",
-        "x": 220,
+        "x": 200,
         "y": 460,
         "wires": [
             [
@@ -637,7 +638,7 @@
     {
         "id": "0972a2d7180549c3",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Topic contains `#` (error)",
         "props": [
@@ -656,7 +657,7 @@
         "topic": "some/text#/blurb",
         "payload": "Topic contains # (should error)",
         "payloadType": "str",
-        "x": 230,
+        "x": 210,
         "y": 500,
         "wires": [
             [
@@ -667,7 +668,7 @@
     {
         "id": "27976301ca819020",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Topic contains `*` (error)",
         "props": [
@@ -686,7 +687,7 @@
         "topic": "some/text*/blurb",
         "payload": "Topic contains * (should error)",
         "payloadType": "str",
-        "x": 240,
+        "x": 220,
         "y": 540,
         "wires": [
             [
@@ -697,7 +698,7 @@
     {
         "id": "2936bcef3b54a656",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Topic contains `+` (error)",
         "props": [
@@ -716,7 +717,7 @@
         "topic": "some/text+/blurb",
         "payload": "Topic contains + (should error)",
         "payloadType": "str",
-        "x": 230,
+        "x": 210,
         "y": 580,
         "wires": [
             [
@@ -727,7 +728,7 @@
     {
         "id": "f432f577fc0b19f2",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Several errors (error)",
         "props": [
@@ -746,7 +747,7 @@
         "topic": "some/+text#/blurb/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/0123456789/",
         "payload": "Topic contains # (should error)",
         "payloadType": "str",
-        "x": 240,
+        "x": 220,
         "y": 620,
         "wires": [
             [
@@ -757,7 +758,7 @@
     {
         "id": "6ec3e8743317f01e",
         "type": "inject",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Passthrough",
         "props": [
@@ -781,7 +782,7 @@
         "topic": "examples/example+2",
         "payload": "I am example 2",
         "payloadType": "str",
-        "x": 170,
+        "x": 150,
         "y": 680,
         "wires": [
             [
@@ -792,13 +793,13 @@
     {
         "id": "88f335a6657f3025",
         "type": "event-out",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "Expect only error",
         "topic": "",
-        "passthrough": true,
+        "passthrough": "input",
         "outputs": 1,
-        "x": 350,
+        "x": 330,
         "y": 680,
         "wires": [
             [
@@ -809,7 +810,7 @@
     {
         "id": "cbd27c0740d2df2c",
         "type": "debug",
-        "z": "3b8f2a4f11876937",
+        "z": "f8f450e5112b3528",
         "g": "f1d57f2323376d4f",
         "name": "",
         "active": true,
@@ -820,7 +821,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 510,
+        "x": 490,
         "y": 680,
         "wires": []
     }

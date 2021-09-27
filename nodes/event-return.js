@@ -37,6 +37,8 @@ const mod = {
     RED: undefined,
     /** @type {string} Custom Node Name - has to match with html file and package.json `red` section */
     nodeName: 'event-return',
+    /** @type {boolean} Turn on/off node debugging */
+    debug: false,
 }
 
 //#endregion ----- Module level variables ---- //
@@ -56,8 +58,9 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
     // If you need it - or just use mod.RED if you prefer:
     //const RED = mod.RED
 
-    // Override the msg.topic if one is set in the node
-    if ( this.topic ) msg.topic = this.topic
+    // Use the default topic from the settings if the msg doesn't define one
+    if ( (! msg.topic) && this.topic ) msg.topic = this.topic
+    
 
     // Does the input msg contain a msg._eventOriginator property? If not, error
     if ( ! msg._eventOriginator ) {
@@ -66,17 +69,19 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
         return
     }
 
-    // Where to return the msg to? Uses the originating node id
-    const eventName = `node-red-contrib-events/return/${msg._eventOriginator}`
-
-    // Change the originating node id to this node to make tracing easier
-    msg._eventReturner = this.id
-
-    // Emit the event
-    tiEvents.emit(eventName, msg)
-
-    // If passthrough is enabled, send the msg
+    // If passthrough is enabled, send the original msg
     if ( this.passthrough === true ) send(msg)
+
+    // Where to return the msg to? Uses the originating node id
+    const eventName = `node-red-contrib-events/return/${msg._eventOriginator[0]}`
+
+    // Add this node id to make tracing easier    
+    let _er = []
+    if ( msg._eventReturner ) _er = Array.from(msg._eventReturner)
+    _er.unshift(this.id)
+
+    // Emit the event but with the _eventReturner replaced with this node id so we don't impact the through msg
+    tiEvents.emit(eventName, { ...msg, ...{_eventReturner: _er} } )
 
     // We are done
     done()
@@ -99,6 +104,8 @@ function nodeInstance(config) {
     this.name = config.name
     this.topic = config.topic || ''
     this.passthrough = config.passthrough
+
+    if ( mod.debug ) this.status({fill:'green',shape:'dot',text:this.id})
 
     /** Handle incoming msg's - note that the handler fn inherits `this`
      *  The inputMsgHandler function is executed every time this instance

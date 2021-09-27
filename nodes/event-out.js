@@ -37,6 +37,8 @@ const mod = {
     RED: undefined,
     /** @type {string} Custom Node Name - has to match with html file and package.json `red` section */
     nodeName: 'event-out',
+    /** @type {boolean} Turn on/off node debugging */
+    debug: false,
 }
 
 //#endregion ----- Module level variables ---- //
@@ -56,9 +58,9 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
     // If you need it - or just use mod.RED if you prefer:
     //const RED = mod.RED
 
-    let topic = msg.topic
 
-    // Default topic from the settings if the msg doesn't define one
+    // Use the default topic from the settings if the msg doesn't define one
+    let topic = msg.topic
     if ( (! topic) && this.topic ) topic = this.topic
     if ( ! topic ) topic = ''
 
@@ -74,15 +76,20 @@ function inputMsgHandler(msg, send, done) { // eslint-disable-line no-unused-var
         return
     }
 
+    // If passthrough set to 'input', send the original msg to the output port
+    if ( this.passthrough === 'input' ) send(msg)
+
     // Ensure that the event name is unique for these nodes (since the event handler may be reused in other nodes)
     const eventName = `node-red-contrib-events/${topic}`
-    // Add the originating node id to make tracing easier
-    msg._eventOriginator = this.id
-    // Emit the event
-    tiEvents.emit(eventName, msg)
     
-    if ( this.passthrough === 'input' ) send(msg) // If passthrough set to 'input', send the msg to the output port
+    // Add this.id to new level of _eventOriginator. Done in a way so we don't impact the through msg
+    let _eo = []
+    if ( msg._eventOriginator ) _eo = Array.from(msg._eventOriginator)
+    _eo.unshift(this.id)
 
+    // Emit the event
+    tiEvents.emit(eventName, { ...msg, ...{_eventOriginator: _eo} })
+    
     // We are done
     done()
 
@@ -105,6 +112,13 @@ function nodeInstance(config) {
     this.topic = config.topic || ''
     this.passthrough = config.passthrough || 'none'
 
+    let s = []
+    if ( this.passthrough === 'input' ) s = ['green', 'dot']
+    else if ( this.passthrough === 'return' ) s = ['blue', 'ring']
+
+    if ( mod.debug ) this.status({fill:s[0],shape:s[1],text:this.id})
+    else if ( this.passthrough !== 'none' ) this.status({fill:s[0],shape:s[1],text:this.passthrough})
+
     // Handle v1.0 legacy
     if ( this.passthrough === false ) this.passthrough = 'none'
     else if ( this.passthrough === true ) this.passthrough = 'input'
@@ -117,10 +131,14 @@ function nodeInstance(config) {
 
     if ( this.passthrough === 'return' ) {   // if set to 'return', set up a return listener
         tiEvents.on(`node-red-contrib-events/return/${this.id}`, (msg) => {
-            this.send(msg)
+            // Drop the top entry
+            let _eo = []
+            if ( msg._eventOriginator ) _eo = Array.from(msg._eventOriginator)
+            _eo.shift()
+
+            this.send({ ...msg, ...{_eventOriginator: _eo} })
         })
     }
-
 
     /** Put things here if you need to do anything when a node instance is removed
      * Or if Node-RED is shutting down.

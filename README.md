@@ -23,6 +23,7 @@ This allows you to create sub-flows (sub-routines) and loops very easily.
 * A separate event handler is needed because the Node-RED core devs want to make sure that Node-RED's own event handlers are not used by contributed nodes.
   These nodes use a separate event handler module that is shared with other nodes from me including node-red-contrib-uibuilder.
   That means that these nodes will (in the future) interact with uibuilder where needed but are not dependent.
+  Other nodes could also use the same library. Whichever nodes use the library, they will all get the same event handler.
 * The `/` char in the topic is used as a level (namespace) separator in the same way as with MQTT.
 * Can use either glob-style (`*`, `**`) or MQTT-style (`+`, `#`) wildcards.
 * The package contains some example flows. Access using the Import examples library in Node-RED.
@@ -49,7 +50,8 @@ However, if you wish, you can:
 * Allow the received msg to be passed through to the output.
 * Allow the use of an `event-return` node so that sub-subflows (sub-routines) or loops can be created.
 
-The node adds a `msg._eventOriginator` property that records the `event-out` node ID that is originating the msg. This helps with debugging and tracing of data flows.
+The node adds a `msg._eventOriginator` array property that records the `event-out` node ID that is originating the msg. This helps with debugging and tracing of data flows.
+If a series of `event.out` nodes are used, each will add an ID to top of the array so that you can see the full path taken and so that the `event-return` nodes can navigate back up the tree.
 
 The input topic is sanity checked: it must be a string and no more than 255 chars. It should not contain `*`, `#` or `+`
 
@@ -74,6 +76,7 @@ Then create a flow starting with an `event-in` node, do some processing and end 
 
 The `event-return` node does not need any configuration, it uses the `msg._eventOriginator` property from the input msg
 to route data back to the originating `event-out` using an internal event sender/listener based on the node ID of the `event-out` node.
+In the process, it adds to top of an array `msg._eventReturner` with the ID of the return node so that you can trace backwards if needed.
 
 You can, however, allow the node to pass messages through to an output if you want to.
 
@@ -93,3 +96,7 @@ You can also override the msg.topic for the output if you wish.
 ## Change Log
 
 See the [CHANGELOG](./CHANGELOG.md) file for details.
+
+## To Do
+
+* Allow though AND return

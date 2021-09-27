@@ -25,9 +25,20 @@
     <dt>Topic <span class="property-type">string</span></dt>
     <dd>A topic name to use if the incoming msg does not contain one.</dd>
 
-    <dt>passthrough <span class="property-type">boolean</span></dt>
+    <dt>passthrough <span class="property-type">string, hidden</span></dt>
     <dd>
-        If selected, an output port will appear and any input msg will be also delivered to the output.
-        This allows you to use the node in-line with a flow but still benefit from listeners elsewhere in your flows and tabs.
+        Set by the 3 radio buttons to one of 'none', 'input', or 'return'.
+        <ul>
+            <li>
+                <b>None</b>: No output port.
+            </li>
+            <li>
+                <b>Input</b>: A copy of the input msg is sent to the output.
+            </li>
+            <li>
+                <b>Return</b>: The node listens for output from an <code>event-return</code> node receiving a <code>msg._eventOriginator</code> property having the same ID as this node.
+                This allows for sub-flows and loops to be created.
+            </li>
+        </ul>
     </dd>
 </dl>

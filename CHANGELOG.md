@@ -1,3 +1,17 @@
+## 1.1.3 - Bug Fix (2021-09-27)
+
+### Changed
+
+* Change return node so that topic setting doesn't override the msg.topic. The topic setting in the node will now only be used if the inbound msg has no topic.
+
+### Fixed
+
+* [A nested loops issue](https://discourse.nodered.org/t/new-node-node-red-contrib-events-alternative-to-link-nodes/51028/35).
+  
+  `msg._eventOriginator` and `msg._eventReturner` are now both arrays with the latest entries at the top. This enables multi-level out and return. 
+  
+  Infinite loops should no longer be possible unless you deliberately mess with these properties (hint: don't!).
+
 ## 1.1.2 - Improvements & new event-return node (2021-09-26)
 
 ### New
