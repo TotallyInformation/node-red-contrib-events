@@ -88,8 +88,8 @@ You can also override the msg.topic for the output if you wish.
 
 ## Similar Nodes
 
-* `link-in`/`link-out` are core nodes, they use Node.js's event system but are linked by source/destination node ID rather than by topic.
-* **[node-red-contrib-topic-link](https://flows.nodered.org/node/node-red-contrib-topic-link)** - uses `set`s and a map and may need a deep object copy. Does not use events. Supports MQTT-style wildcards. This is the node most similar to what I'm doing. The usage is very similar, it is mostly the execution that is different.
+* `link-in`/`link-out` are core nodes, they use Node.js's event system but are linked by source/destination node ID rather than by topic. There is currently no `return` link capability but this is [being looked into](https://discourse.nodered.org/t/link-request-node/8906/3).
+* **[node-red-contrib-topic-link](https://flows.nodered.org/node/node-red-contrib-topic-link)** - uses `set`s and a map and may need a deep object copy. Does not use events. Supports MQTT-style wildcards. This is the node most similar to what I'm doing. The basic usage is similar, it is mostly the execution that is different. However, there is no `return` link capability.
 * [node-red-contrib-sub-link](https://flows.nodered.org/node/node-red-contrib-sub-link) - does not use Node.js's native event system and requires configuration. Supports MQTT-style wildcards.
 * [node-red-contrib-pubsub](https://flows.nodered.org/node/node-red-contrib-pubsub) - source code not published. They manually do what the native event system does for you. They manually convert msg objects to a string and back. The stringify process isn't wrapped in a try/catch which may be a little fragile. And finally, they don't support wildcard subscriptions.
 
