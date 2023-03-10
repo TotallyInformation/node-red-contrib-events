@@ -66,7 +66,7 @@ function nodeInstance(config) {
 
     // Event handler
     const sender = (msg) => {
-        this.send(msg)
+        this.send(RED.util.cloneMessage(msg))
     }
 
     // Create new listener for the given topic, record it so that it can be removed on close
